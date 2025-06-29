@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
-                echo "✅ Checked out from test branch"
+                echo "✅ Checked out from test branch shittt"
             }
         }
 
