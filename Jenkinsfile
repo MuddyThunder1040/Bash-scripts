@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/MuddyThunder1040/Bash-scripts.git'
+                git branch: 'master', url: 'https://github.com/MuddyThunder1040/Bash-scripts.git'
                 echo "✅ Code checked out from main branch"
             }
         }
