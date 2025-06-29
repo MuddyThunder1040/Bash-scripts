@@ -3,55 +3,33 @@ pipeline {
 
     environment {
         IMAGE_NAME = "bash-scripts"
-        TAG = "latest"
+        TAG = "prod"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/MuddyThunder1040/Bash-scripts.git'
-                echo "✅ Code checked out from main branch"
+                checkout scm
+                echo "✅ Checked out from prod branch"
             }
         }
 
-        stage('Run Unit Tests') {
+        stage('Approval') {
             steps {
-                sh '''
-                python3 -m venv venv
-                . venv/bin/activate
-                pip install --upgrade pip
-                pip install pytest pytest-cov
-                pytest --cov=.
-                '''
+                input message: 'Approve Deployment to PROD?', ok: 'Deploy'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Docker Build') {
             steps {
-                sh """
-                docker build -t ${IMAGE_NAME}:${TAG} .
-                """
+                sh "docker build -t ${IMAGE_NAME}:${TAG} ."
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Deploy') {
             steps {
-                sh """
-                docker run --rm ${IMAGE_NAME}:${TAG}
-                """
+                sh "docker run -d -p 5000:5000 ${IMAGE_NAME}:${TAG}"
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline finished'
-        }
-        success {
-            echo '✅ Build, Test, and Docker Run Successful'
-        }
-        failure {
-            echo '❌ Pipeline failed'
         }
     }
 }
