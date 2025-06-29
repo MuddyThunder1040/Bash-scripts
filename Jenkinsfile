@@ -3,14 +3,14 @@ pipeline {
 
     environment {
         IMAGE_NAME = "bash-scripts"
-        TAG = "latest"
+        TAG = "dev"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/MuddyThunder1040/Bash-scripts.git'
-                echo "✅ Code checked out from main branch"
+                checkout scm
+                echo "✅ Checked out code from dev branch"
             }
         }
 
@@ -19,39 +19,21 @@ pipeline {
                 sh '''
                 python3 -m venv venv
                 . venv/bin/activate
-                pip install --upgrade pip
-                pip install pytest pytest-cov
-                pytest --cov=.
+                pip install pytest
+                pytest
                 '''
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh """
-                docker build -t ${IMAGE_NAME}:${TAG} .
-                """
-            }
-        }
-
-        stage('Run Docker Container') {
-            steps {
-                sh """
-                docker run --rm ${IMAGE_NAME}:${TAG}
-                """
+                sh "docker build -t ${IMAGE_NAME}:${TAG} ."
             }
         }
     }
 
     post {
-        always {
-            echo 'Pipeline finished'
-        }
-        success {
-            echo '✅ Build, Test, and Docker Run Successful'
-        }
-        failure {
-            echo '❌ Pipeline failed'
-        }
+        success { echo "✅ DEV pipeline successful" }
+        failure { echo "❌ DEV pipeline failed" }
     }
 }
