@@ -1,0 +1,66 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# C extensions
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual Environments
+venv/
+ENV/
+env/
+.venv/
+
+# pytest cache
+.pytest_cache/
+
+# Coverage reports
+.coverage
+htmlcov/
+.coverage.*
+.cache
+
+# Logs
+*.log
+
+# Jupyter Notebooks Checkpoints
+.ipynb_checkpoints
+
+# VSCode settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git and SSH
+*.pem
+*.pub
+*.key
+
+# Python IDE files
+*.idea/
+*.spyderproject
+*.ropeproject
+
+# Task output
+todo.txt
+
+# Terraform (optional, since you have terraform-practice)
+.terraform/
+*.tfstate
+*.tfstate.backup
+crash.log
+
+# Jenkins workspace (optional if Jenkins runs locally)
+workspace/
+
+# Environment files
+.env
+.env.*
